@@ -37,7 +37,6 @@ const signup = async (req, res) => {
     });
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-
     res.status(200).json({ user: user._id });
   } catch (err) {
     const errors = handleErrors(err);
@@ -46,7 +45,7 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  res.cookie("newUser", false);
+  // res.cookie("newUser", false);
 };
 
 module.exports = { signup, login };
