@@ -1,4 +1,6 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 const UserDatabase = require("../models/schemaSignup");
 
 const handleErrors = (err) => {
@@ -15,6 +17,12 @@ const handleErrors = (err) => {
   return errors;
 };
 
+const maxAge = 3 * 24 * 60 * 60;
+
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: maxAge });
+};
+
 const signup = async (req, res) => {
   try {
     const { fullName, email, password, accountStatus, dateCreated } = req.body;
@@ -27,7 +35,10 @@ const signup = async (req, res) => {
       accountStatus,
       dateCreated,
     });
-    res.status(200).json({ user });
+    const token = createToken(user._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+
+    res.status(200).json({ user: user._id });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(500).json(errors);
@@ -35,13 +46,7 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  try {
-    const user = await UserDatabase.find({});
-    console.log(user);
-  } catch (err) {
-    console.log(err);
-    res.status(500);
-  }
+  res.cookie("newUser", false);
 };
 
 module.exports = { signup, login };
