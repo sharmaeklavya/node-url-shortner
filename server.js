@@ -7,9 +7,9 @@ const router = require("./src/routes/userRoutes");
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 app.use(router);
-app.use(cookieParser());
 
 connectDB
   .then((port) => {

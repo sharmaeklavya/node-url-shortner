@@ -1,3 +1,4 @@
+const dotenv = require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -19,7 +20,9 @@ const handleErrors = (err) => {
 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: maxAge });
+  return jwt.sign({ id }, "hello-my-secret-key", {
+    expiresIn: maxAge,
+  });
 };
 
 const signup = async (req, res) => {
@@ -37,7 +40,6 @@ const signup = async (req, res) => {
     const token = createToken(user._id);
     res.cookie("jwt", token, {
       httpOnly: true,
-      secure: true,
       maxAge: maxAge * 1000,
     });
     res.status(200).json({ user: user._id });
