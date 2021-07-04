@@ -20,7 +20,7 @@ const handleErrors = (err) => {
 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-  return jwt.sign({ id }, "hello-my-secret-key", {
+  return jwt.sign({ id }, process.env.SECRET_KEY, {
     expiresIn: maxAge,
   });
 };
@@ -42,7 +42,7 @@ const signup = async (req, res) => {
       httpOnly: true,
       maxAge: maxAge * 1000,
     });
-    res.status(200).json({ user: user._id });
+    res.status(200).json({ user: user._id, token });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(500).json(errors);
