@@ -8,12 +8,22 @@ const router = require("./src/routes/userRoutes");
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ credentials: true }));
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin");
-  res.header("Access-Control-Allow-Credentials", true);
-});
+const whitelist = [
+  "http://localhost:3000",
+  "https://node-mini-urls.herokuapp.com/sign-up",
+  "https://proj-url-shortner.netlify.app",
+];
+const corsOptions = {
+  credentials: true, // This is important.
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin)) return callback(null, true);
+
+    callback(new Error("Not allowed by CORS"));
+  },
+};
+
+app.use(cors(corsOptions));
 
 app.use(router);
 
