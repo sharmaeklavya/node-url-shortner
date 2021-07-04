@@ -20,7 +20,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     trim: true,
-    minlength: [true, "Min 6 characters required"],
+    minlength: [true, "Password should be min 6 characters long",
   },
   accountStatus: { type: Boolean, trim: true, default: false },
   dateCreated: {
