@@ -18,7 +18,6 @@ const handleErrors = (err) => {
 };
 
 const maxAge = 3 * 24 * 60 * 60;
-
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: maxAge });
 };
@@ -35,7 +34,7 @@ const signup = async (req, res) => {
       accountStatus,
       dateCreated,
     });
-    const token = createToken(user._id);
+    const token = await createToken(user._id);
     res.cookie("jwt", token, { maxAge: maxAge * 1000 });
     res.status(200).json({ user: user._id });
   } catch (err) {
