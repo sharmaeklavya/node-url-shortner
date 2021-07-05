@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./src/helpers/connection");
 const router = require("./src/routes/userRoutes");
@@ -21,6 +22,18 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use(
+  session({
+    secret: process.env.SECRET_KEY,
+    cookie: {
+      path: "/",
+      domain: "http://localhost:3000",
+      maxAge: 1000 * 60 * 24, // 24 hours
+    },
+  })
+);
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Origin", req.headers.origin);
