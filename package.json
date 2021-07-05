@@ -28,6 +28,7 @@
     "mongodb": "^3.6.9",
     "mongoose": "^5.12.14",
     "randomstring": "^1.2.1",
+    "should-send-same-site-none": "^2.0.5",
     "validator": "^13.6.0"
   }
 }
