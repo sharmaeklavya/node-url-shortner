@@ -41,6 +41,7 @@ const signup = async (req, res) => {
       maxAge: maxAge * 1000,
       httpOnly: true,
       secure: true,
+      samesite: "None",
     });
     res.status(200).json({ user: user._id, token });
   } catch (err) {
