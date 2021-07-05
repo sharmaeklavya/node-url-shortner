@@ -17,7 +17,7 @@ const handleErrors = (err) => {
   return errors;
 };
 
-const maxAge = Date.now() + 3 * 24 * 60 * 60;
+const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.SECRET_KEY, {
     expiresIn: maxAge,
@@ -42,7 +42,7 @@ const signup = async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      resave: true,
+      domain: "https://proj-url-shortner.netlify.app",
     });
     res.status(200).json({ user: user._id, token });
   } catch (err) {
