@@ -42,7 +42,7 @@ const signup = async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      domain: "https://proj-url-shortner.netlify.app",
+      domain: ".proj-url-shortner.netlify.app",
     });
     res.status(200).json({ user: user._id, token });
   } catch (err) {
