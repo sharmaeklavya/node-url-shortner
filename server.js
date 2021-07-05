@@ -8,7 +8,10 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const whitelist = ["https://proj-url-shortner.netlify.app"];
+const whitelist = [
+  "http://localhost:3000",
+  "https://proj-url-shortner.netlify.app",
+];
 const corsOptions = {
   credentials: true,
   origin: (origin, callback) => {
