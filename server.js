@@ -7,8 +7,6 @@ const router = require("./src/routes/userRoutes");
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(corsOptions));
-app.use(router);
 
 const whitelist = ["https://proj-url-shortner.netlify.app"];
 const corsOptions = {
@@ -18,6 +16,9 @@ const corsOptions = {
     callback(new Error("Not allowed by CORS"));
   },
 };
+
+app.use(cors(corsOptions));
+app.use(router);
 
 connectDB
   .then((port) => {
