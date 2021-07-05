@@ -38,7 +38,7 @@ const signup = async (req, res) => {
     });
     const token = createToken(user._id);
     res.cookie("jwt", token, {
-      maxAge: maxAge * 1000,
+      maxAge: Date.now() + 30 * 86400 * 1000,
       httpOnly: true,
       secure: true,
       sameSite: "none",
