@@ -1,4 +1,3 @@
-const dotenv = require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -39,8 +38,9 @@ const signup = async (req, res) => {
     });
     const token = createToken(user._id);
     res.cookie("jwt", token, {
-      httpOnly: true,
       maxAge: maxAge * 1000,
+      httpOnly: true,
+      secure: true,
     });
     res.status(200).json({ user: user._id, token });
   } catch (err) {
