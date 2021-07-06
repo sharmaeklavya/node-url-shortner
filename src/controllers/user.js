@@ -54,12 +54,13 @@ const login = async (req, res) => {
       const isValid = await bcrypt.compare(req.body.password, user.password);
       if (isValid) {
         const token = createToken(user._id);
-        res.cookie("my-token", token, {
+        res.cookie("LJTSK", token, {
           maxAge: maxAge * 1000,
           httpOnly: true,
           secure: true,
           sameSite: "none",
           domain: ".netlify.app",
+          path: "/",
         });
         res.status(200).json({
           message: "Login Success",
