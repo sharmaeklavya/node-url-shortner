@@ -59,8 +59,6 @@ const login = async (req, res) => {
           httpOnly: true,
           secure: true,
           sameSite: "none",
-          domain: ".netlify.app",
-          path: "/",
         });
         res.status(200).json({
           message: "Login Success",
