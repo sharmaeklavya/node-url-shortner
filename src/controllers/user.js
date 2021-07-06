@@ -36,14 +36,11 @@ const signup = async (req, res) => {
       accountStatus,
       dateCreated,
     });
-    const token = createToken(user._id);
-    res.cookie("jwt", token, {
-      maxAge: maxAge * 1000,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
-    res.status(200).json({ user: user._id, token });
+    if (user) {
+      res.status(200).json({ user: "User registered successfully" });
+    } else {
+      res.status(400).json({ message: "User could not be registered." });
+    }
   } catch (err) {
     const errors = handleErrors(err);
     res.status(500).json(errors);
@@ -51,7 +48,34 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  // res.cookie("newUser", false);
+  try {
+    const user = await UserDatabase.findOne({ email: req.body.email });
+    if (user) {
+      const isValid = await bcrypt.compare(req.body.password, user.password);
+      if (isValid) {
+        const token = createToken(user._id);
+        res.cookie("my-token", token, {
+          maxAge: maxAge * 1000,
+          httpOnly: true,
+          // secure: true,
+          // sameSite: "none",
+        });
+        res.status(200).json({
+          message: "Login Success",
+          id: user._id,
+          name: user.fullName,
+          email: user.email,
+          token,
+        });
+      } else {
+        res.status(401).json({ message: "Invalid credentials" });
+      }
+    } else {
+      res.status(404).json({ message: "User not registered" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 module.exports = { signup, login };
