@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const UserDatabase = require("../models/schemaSignup");
 
 const handleErrors = (err) => {
@@ -72,4 +71,8 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { signup, login };
+const auth = async (req, res) => {
+  res.send(200);
+};
+
+module.exports = { signup, login, auth };
