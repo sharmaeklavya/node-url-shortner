@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const csp = require("express-csp-header");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const connectDB = require("./src/helpers/connection");
@@ -8,15 +7,6 @@ const router = require("./src/routes/userRoutes");
 
 const app = express();
 app.use(express.json());
-
-app.use(
-  csp({
-    policies: {
-      "default-src": [csp.NONE],
-      "img-src": [csp.SELF],
-    },
-  })
-);
 
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.DB_URL,
