@@ -47,8 +47,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-res.set("Content-Security-Policy", "default-src 'self'");
-
 app.use(router);
 
 connectDB
