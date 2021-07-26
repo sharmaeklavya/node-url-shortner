@@ -9,7 +9,15 @@ const router = require("./src/routes/userRoutes");
 const app = express();
 app.use(express.json());
 
-app.set("view engine", "ejs");
+app.use(function (req, res, next) {
+  res.setHeader(
+    "Content-Security-Policy",
+    "script-src 'self' https://node-mini.herokuapp.com"
+  );
+  return next();
+});
+
+app.use(express.static(__dirname + "/"));
 
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.DB_URL,
