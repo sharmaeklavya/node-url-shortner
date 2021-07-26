@@ -3,6 +3,24 @@ const { isEmail } = require("validator");
 
 const Schema = mongoose.Schema;
 
+const urlSchema = new Schema({
+  urlcode: String,
+  longurl: {
+    type: String,
+    trim: true,
+  },
+  shorturl: {
+    type: String,
+    trim: true,
+  },
+  clicks: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  dateCreated: { type: Number, default: Date.now() },
+});
+
 const userSchema = new Schema({
   fullName: {
     type: String,
@@ -29,6 +47,7 @@ const userSchema = new Schema({
     trim: true,
     default: new Date(),
   },
+  url: [urlSchema],
 });
 
 const UserDatabase = mongoose.model("users", userSchema);

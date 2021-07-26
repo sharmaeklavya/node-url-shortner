@@ -1,11 +1,28 @@
 const express = require("express");
-const { signup, login, auth } = require("../controllers/user");
-const { requireAuth } = require("../controllers/tokenAuth");
 const router = express.Router();
 
-router.post("/", signup);
+const {
+  register,
+  login,
+  auth,
+  unauth,
+  shorten,
+  fetchAll,
+  redirect,
+} = require("../controllers/user");
 
-router.post("/login", login);
+router.post("/", login);
 
-router.get("/auth", requireAuth, auth);
+router.post("/register", register);
+
+router.get("/auth", auth);
+
+router.get("/unauth", unauth);
+
+router.post("/shorten", shorten);
+
+router.get("/fetch", fetchAll);
+
+router.get("/:redirect", redirect);
+
 module.exports = router;

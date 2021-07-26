@@ -1,10 +1,36 @@
 const express = require("express");
 const cors = require("cors");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const connectDB = require("./src/helpers/connection");
 const router = require("./src/routes/userRoutes");
 
 const app = express();
 app.use(express.json());
+
+const sessionStore = MongoStore.create({
+  mongoUrl: process.env.DB_URL,
+  dbName: "mini-urls",
+  collection: "sessions",
+});
+
+app.set("trust proxy", 1);
+
+app.use(
+  session({
+    key: "__SSID",
+    secret: process.env.TOKEN_KEY,
+    resave: false,
+    saveUninitialized: true,
+    store: sessionStore,
+    cookie: {
+      httpOnly: true,
+      // secure: true,
+      // sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 48,
+    },
+  })
+);
 
 const whitelist = [
   "http://localhost:3000",
