@@ -110,7 +110,7 @@ module.exports.shorten = async (req, res) => {
             },
           }
         );
-        res.status(200).json({ message: "Short url created" });
+        res.status(200).json({ message: "Short url created", url: shortUrl });
       } // Invalid email or url already exists
       else {
         res.status(401).json({ message: "URL already exists" });

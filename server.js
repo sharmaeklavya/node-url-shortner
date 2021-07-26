@@ -14,6 +14,8 @@ const sessionStore = MongoStore.create({
   collection: "sessions",
 });
 
+res.set("Content-Security-Policy", "default-src 'self'");
+
 app.set("trust proxy", 1);
 
 app.use(
@@ -36,6 +38,7 @@ const whitelist = [
   "http://localhost:3000",
   "https://proj-url-shortner.netlify.app",
 ];
+
 const corsOptions = {
   credentials: true,
   origin: (origin, callback) => {
