@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const helmet = require("helmet");
+const csp = require("express-csp-header");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const connectDB = require("./src/helpers/connection");
@@ -9,15 +9,14 @@ const router = require("./src/routes/userRoutes");
 const app = express();
 app.use(express.json());
 
-app.use(function (req, res, next) {
-  res.setHeader(
-    "Content-Security-Policy",
-    "script-src 'self' https://node-mini.herokuapp.com"
-  );
-  return next();
-});
-
-app.use(express.static(__dirname + "/"));
+app.use(
+  csp({
+    policies: {
+      "default-src": [csp.NONE],
+      "img-src": [csp.SELF],
+    },
+  })
+);
 
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.DB_URL,
