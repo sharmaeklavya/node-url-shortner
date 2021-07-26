@@ -14,8 +14,6 @@ const sessionStore = MongoStore.create({
   collection: "sessions",
 });
 
-res.set("Content-Security-Policy", "default-src 'self'");
-
 app.set("trust proxy", 1);
 
 app.use(
@@ -48,6 +46,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+res.set("Content-Security-Policy", "default-src 'self'");
 
 app.use(router);
 
