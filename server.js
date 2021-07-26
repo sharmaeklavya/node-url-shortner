@@ -8,6 +8,7 @@ const router = require("./src/routes/userRoutes");
 
 const app = express();
 app.use(express.json());
+app.use(helmet());
 
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.DB_URL,
@@ -47,8 +48,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-app.use(helmet());
 
 app.use(router);
 
