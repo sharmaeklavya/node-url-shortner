@@ -9,6 +9,11 @@ const router = require("./src/routes/userRoutes");
 const app = express();
 app.use(express.json());
 app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.DB_URL,
