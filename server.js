@@ -8,6 +8,8 @@ const router = require("./src/routes/userRoutes");
 const app = express();
 app.use(express.json());
 
+app.set("view engine", "ejs");
+
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.DB_URL,
   dbName: "mini-urls",
