@@ -50,9 +50,9 @@ app.use(cors(corsOptions));
 app.use(function (req, res, next) {
   res.setHeader(
     "Content-Security-Policy",
-    "script-src 'self' https://node-mini.herokuapp.com"
+    "default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'"
   );
-  return next();
+  next();
 });
 
 app.use(router);
