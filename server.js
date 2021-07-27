@@ -47,7 +47,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.set("Content-Security-Policy", "default-src 'self'");
+app.use(function (req, res, next) {
+  res.setHeader(
+    "Content-Security-Policy",
+    "script-src 'self' https://apis.google.com"
+  );
+  return next();
+});
 
 app.use(router);
 
