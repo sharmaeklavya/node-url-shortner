@@ -49,19 +49,11 @@ app.use(cors(corsOptions));
 
 app.use(function (req, res, next) {
   res.setHeader(
-    "content-security-policy",
-    "default-src 'self'; script-src 'self' 'report-sample'; style-src 'self' 'report-sample'; base-uri 'none'; object-src 'none'; report-uri https://node-mini.herokuapp.com"
+    "Content-Security-Policy-Report-Only",
+    "default-src 'self'; font-src 'self'; img-src 'self' https://node-mini.herokuapp.com/favicon.ico; script-src 'self'; style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css; frame-src 'self'"
   );
   next();
 });
-
-// app.use(function (req, res, next) {
-//   res.setHeader(
-//     "Content-Security-Policy",
-//     "default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'"
-//   );
-//   next();
-// });
 
 app.use(router);
 
