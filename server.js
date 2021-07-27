@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const helmet = require("helmet");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const connectDB = require("./src/helpers/connection");
@@ -8,12 +7,6 @@ const router = require("./src/routes/userRoutes");
 
 const app = express();
 app.use(express.json());
-
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-  })
-);
 
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.DB_URL,

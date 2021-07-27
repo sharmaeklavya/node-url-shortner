@@ -155,7 +155,6 @@ module.exports.redirect = async (req, res) => {
         },
         { $inc: { "url.$.clicks": 1 } }
       );
-      await res.header("Content-Security-Policy", "img-src 'self'");
       res.redirect(user.url[0].longurl);
     } else {
       res.status(404).json({ message: "URL not found" });
