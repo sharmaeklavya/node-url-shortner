@@ -50,7 +50,7 @@ app.use(cors(corsOptions));
 app.use(function (req, res, next) {
   res.setHeader(
     "Content-Security-Policy",
-    "script-src 'self' https://apis.google.com"
+    "script-src 'self' https://node-mini.herokuapp.com"
   );
   return next();
 });
