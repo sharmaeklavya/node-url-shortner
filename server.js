@@ -50,7 +50,7 @@ app.use(cors(corsOptions));
 app.use(function (req, res, next) {
   res.setHeader(
     "Content-Security-Policy-Report-Only",
-    "default-src 'self'; font-src 'self'; img-src 'self' https://node-mini.herokuapp.com/favicon.ico; script-src 'self'; style-src 'self' frame-src 'self'"
+    "default-src 'self'; font-src 'self'; img-src 'self' https://node-mini.herokuapp.com; script-src 'self'; style-src 'self' frame-src 'self'"
   );
   next();
 });
