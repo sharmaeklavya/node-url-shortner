@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const ejs = require("ejs");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const connectDB = require("./src/helpers/connection");
@@ -9,8 +8,7 @@ const router = require("./src/routes/userRoutes");
 const app = express();
 app.use(express.json());
 
-app.set("views", "./src/views");
-app.set("view engine", "ejs");
+res.set("Content-Security-Policy", "default-src 'self'");
 
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.DB_URL,
