@@ -8,8 +8,6 @@ const router = require("./src/routes/userRoutes");
 const app = express();
 app.use(express.json());
 
-res.set("Content-Security-Policy", "default-src 'self'");
-
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.DB_URL,
   dbName: "mini-urls",
@@ -48,6 +46,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.set("Content-Security-Policy", "default-src 'self'");
 
 app.use(router);
 
