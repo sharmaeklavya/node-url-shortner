@@ -155,6 +155,7 @@ module.exports.redirect = async (req, res) => {
         },
         { $inc: { "url.$.clicks": 1 } }
       );
+      res.redirect(user.url[0].longurl);
       res.status(200).send(user.url);
     } else {
       res.status(404).json({ message: "URL not found" });
