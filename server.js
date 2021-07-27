@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const ejs = require("ejs");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const connectDB = require("./src/helpers/connection");
@@ -8,6 +9,7 @@ const router = require("./src/routes/userRoutes");
 const app = express();
 app.use(express.json());
 
+app.set("views", "./src/views");
 app.set("view engine", "ejs");
 
 const sessionStore = MongoStore.create({
@@ -34,20 +36,22 @@ app.use(
   })
 );
 
-const whitelist = [
-  "http://localhost:3000",
-  "https://proj-url-shortner.netlify.app",
-];
+// const whitelist = [
+//   "http://localhost:3000",
+//   "https://proj-url-shortner.netlify.app",
+// ];
 
-const corsOptions = {
-  credentials: true,
-  origin: (origin, callback) => {
-    if (whitelist.includes(origin)) return callback(null, true);
-    callback(new Error("Not allowed by CORS"));
-  },
-};
+// const corsOptions = {
+//   credentials: true,
+//   origin: (origin, callback) => {
+//     if (whitelist.includes(origin)) return callback(null, true);
+//     callback(new Error("Not allowed by CORS"));
+//   },
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use(cors());
 
 app.use(router);
 
