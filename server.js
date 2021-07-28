@@ -15,7 +15,7 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        "script-src": ["'self'", "'unsafe-inline'", "example.com"],
+        "script-src": ["'self'", "'unsafe-inline'", "node-mini.herokuapp.com"],
       },
     },
   })
