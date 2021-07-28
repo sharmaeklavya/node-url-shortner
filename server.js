@@ -49,6 +49,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(
+  "/:redirect",
   helmet({
     contentSecurityPolicy: {
       directives: {
