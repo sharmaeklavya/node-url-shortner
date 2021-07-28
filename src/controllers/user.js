@@ -2,8 +2,10 @@ const bcrypt = require("bcrypt");
 const validUrl = require("valid-url");
 const { nanoid } = require("nanoid");
 
+// User database connection
 const UserDatabase = require("../models/schemaSignup");
 
+// Handling schema errors
 const handleErrors = (err) => {
   const errors = { fullName: "", email: "", password: "" };
   if (err.code === 11000) {
@@ -18,6 +20,7 @@ const handleErrors = (err) => {
   return errors;
 };
 
+//  user sign up route
 module.exports.register = async (req, res) => {
   try {
     const { fullName, email, password, accountStatus, dateCreated } = req.body;
@@ -41,6 +44,7 @@ module.exports.register = async (req, res) => {
   }
 };
 
+// user login route
 module.exports.login = async (req, res) => {
   try {
     const user = await UserDatabase.findOne({ email: req.body.email });
@@ -66,6 +70,49 @@ module.exports.login = async (req, res) => {
   }
 };
 
+// user authentication/ password reset route
+module.exports.reset = async (req, res) => {
+  try {
+    const user = await UserDatabase.findOne({ email: req.body.email });
+    if (user) {
+      userData = {
+        fullName: user.fullName,
+        email: user.email,
+      };
+      res.status(200).json({ message: "Valid User", userData });
+    } else {
+      res.status(404).json({ message: "User not registered" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+//user password update route
+module.exports.update = async (req, res) => {
+  try {
+    const user = await UserDatabase.findOne({ email: req.body.email });
+    if (user) {
+      const isValid = await bcrypt.compare(req.body.password, user.password);
+      if (isValid) {
+        const updatePassword = await bcrypt.hash(req.body.updatePass, 12);
+        await UserDatabase.updateOne(
+          { email: req.body.email },
+          { $set: { password: updatePassword } }
+        );
+        res.status(200).json({ message: "Password updated" });
+      } else {
+        res.status(401).json({ message: "Invalid password" });
+      }
+    } else {
+      res.status(404).json({ message: "User not registered" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// if user is logged in - authenticate user
 module.exports.auth = (req, res) => {
   if (req.session.userData) {
     res.send({ loggedin: true, user: req.session.userData });
@@ -74,6 +121,7 @@ module.exports.auth = (req, res) => {
   }
 };
 
+// if user signs out - unauthenticate user
 module.exports.unauth = (req, res) => {
   if (req.session.userData) {
     req.session.destroy();
@@ -83,16 +131,17 @@ module.exports.unauth = (req, res) => {
   }
 };
 
+// creating short url route
 module.exports.shorten = async (req, res) => {
   if (req.session.userData) {
     const longUrl = req.body.longurl;
-    //
+    // validity input email
     if (validUrl.isUri(longUrl)) {
       const user = await UserDatabase.findOne({
         email: req.session.userData.email,
         url: { $not: { $elemMatch: { longurl: longUrl } } },
       });
-      //
+      // checking if the user is valid
       if (user) {
         const urlCode = nanoid(5);
         const baseUrl = process.env.BASE_URL;
@@ -125,6 +174,7 @@ module.exports.shorten = async (req, res) => {
   }
 };
 
+// display all created urls
 module.exports.fetchAll = async (req, res) => {
   try {
     const user = await UserDatabase.findOne({
@@ -140,6 +190,7 @@ module.exports.fetchAll = async (req, res) => {
   }
 };
 
+// redirect from short urls to long urls
 module.exports.redirect = async (req, res) => {
   try {
     const user = await UserDatabase.findOne(

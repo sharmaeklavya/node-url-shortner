@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const helmet = require("helmet");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const connectDB = require("./src/helpers/connection");
@@ -47,17 +46,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-app.use(
-  "/:redirect",
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        "script-src": ["'self'", "'unsafe-inline'", "node-mini.herokuapp.com"],
-      },
-    },
-  })
-);
 
 app.use(router);
 

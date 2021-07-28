@@ -4,6 +4,8 @@ const router = express.Router();
 const {
   register,
   login,
+  reset,
+  update,
   auth,
   unauth,
   shorten,
@@ -14,6 +16,10 @@ const {
 router.post("/", login);
 
 router.post("/register", register);
+
+router.post("/reset", reset);
+
+router.post("/update", update);
 
 router.get("/auth", auth);
 
