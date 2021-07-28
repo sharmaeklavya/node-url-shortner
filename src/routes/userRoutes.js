@@ -19,7 +19,7 @@ router.post("/register", register);
 
 router.post("/reset", reset);
 
-router.post("/update", update);
+router.post("/update/:rstring", update);
 
 router.get("/auth", auth);
 

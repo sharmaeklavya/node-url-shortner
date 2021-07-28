@@ -29,6 +29,8 @@
     "mongodb": "^3.6.9",
     "mongoose": "^5.12.14",
     "nanoid": "^3.1.23",
+    "nodemailer": "^6.6.3",
+    "random-string": "^0.2.0",
     "valid-url": "^1.0.9",
     "validator": "^13.6.0"
   }

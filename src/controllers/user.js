@@ -4,6 +4,8 @@ const { nanoid } = require("nanoid");
 
 // User database connection
 const UserDatabase = require("../models/schemaSignup");
+// Supplying random string and email address
+const { emailer, randomStr } = require("../models/emailer");
 
 // Handling schema errors
 const handleErrors = (err) => {
@@ -75,11 +77,12 @@ module.exports.reset = async (req, res) => {
   try {
     const user = await UserDatabase.findOne({ email: req.body.email });
     if (user) {
-      userData = {
-        fullName: user.fullName,
-        email: user.email,
-      };
-      res.status(200).json({ message: "Valid User", userData });
+      emailer(req.body.email);
+      await UserDatabase.findOneAndUpdate(
+        { email: req.body.email },
+        { $set: { randomStr: randomStr } }
+      );
+      res.status(200).json({ message: "Valid User" });
     } else {
       res.status(404).json({ message: "User not registered" });
     }
@@ -91,21 +94,29 @@ module.exports.reset = async (req, res) => {
 //user password update route
 module.exports.update = async (req, res) => {
   try {
-    const user = await UserDatabase.findOne({ email: req.body.email });
-    if (user) {
-      const isValid = await bcrypt.compare(req.body.password, user.password);
-      if (isValid) {
-        const updatePassword = await bcrypt.hash(req.body.updatePass, 12);
+    const isValid = await UserDatabase.findOne({
+      randomStr: req.params.rstring,
+    });
+    if (isValid) {
+      const hash = await bcrypt.hash(req.body.password, 12);
+      req.body.password = hash;
+      const updated = await UserDatabase.updateOne(
+        { randomStr: req.params.rstring },
+        { $set: { password: req.body.password } }
+      );
+      if (updated) {
         await UserDatabase.updateOne(
-          { email: req.body.email },
-          { $set: { password: updatePassword } }
+          { randomStr: req.params.rstring },
+          { $unset: { randomStr: 1 } },
+          false,
+          true
         );
         res.status(200).json({ message: "Password updated" });
       } else {
-        res.status(401).json({ message: "Invalid password" });
+        res.status(502).json({ message: "Password could not be updated" });
       }
     } else {
-      res.status(404).json({ message: "User not registered" });
+      res.status(403).json({ message: "Unauthorised Access" });
     }
   } catch (err) {
     res.status(500).json({ message: "Internal server error" });
