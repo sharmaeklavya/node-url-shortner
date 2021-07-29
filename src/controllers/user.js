@@ -105,12 +105,11 @@ module.exports.update = async (req, res) => {
         { $set: { password: req.body.password } }
       );
       if (updated) {
-        await UserDatabase.updateOne(
+        const deleted = await UserDatabase.updateOne(
           { randomStr: req.params.rstring },
-          { $unset: { randomStr: 1 } },
-          false,
-          true
+          { $unset: { randomStr: 1 } }
         );
+        console.log(deleted);
         res.status(200).json({ message: "Password updated" });
       } else {
         res.status(502).json({ message: "Password could not be updated" });
