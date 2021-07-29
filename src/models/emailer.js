@@ -19,9 +19,9 @@ const emailer = async (email) => {
       },
     });
     await transporter.sendMail({
-      from: '"Pass-RESET 😊" <plzdonotrespond@outlook.com>',
+      from: '"Mini URLs 😊" <plzdonotrespond@outlook.com>',
       to: email,
-      subject: "Password Reset",
+      subject: "Password Reset - Confirm your email",
       html: `<div style="margin : 0 auto; width: 450px; border:1px solid lightgray; border-radius:5px; padding:1rem; text-align:center;">
       <h1 style="font-size:1rem; color:salmon; text-align: left;"> <lead>Dear user,</lead> <br/> <br/>if you have requested for a new password. Please verify this email to reset the password or simply ignore this email.</h1>
       <div style="padding:1rem; margin:0.75rem auto; width:400px; height: 300px;">

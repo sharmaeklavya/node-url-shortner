@@ -47,6 +47,10 @@ const userSchema = new Schema({
     trim: true,
     default: new Date(),
   },
+  randomStr: {
+    type: String,
+    trim: true,
+  },
   url: [urlSchema],
 });
 

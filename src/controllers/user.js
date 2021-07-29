@@ -78,11 +78,11 @@ module.exports.reset = async (req, res) => {
     const user = await UserDatabase.findOne({ email: req.body.email });
     if (user) {
       emailer(req.body.email);
-      await UserDatabase.findOneAndUpdate(
+      await UserDatabase.updateOne(
         { email: req.body.email },
         { $set: { randomStr: randomStr } }
       );
-      res.status(200).json({ message: "Valid User" });
+      res.status(200).json({ message: "Valid Email" });
     } else {
       res.status(404).json({ message: "User not registered" });
     }
