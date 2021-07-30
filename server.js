@@ -4,13 +4,11 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const connectDB = require("./src/helpers/connection");
 const router = require("./src/routes/userRoutes");
-const redirect = require("./src/controllers/user");
 
 const app = express();
 app.use(express.json());
 
 app.enable("trust proxy", 1);
-app.options("/redirect/:id", cors(), redirect);
 
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.DB_URL,
