@@ -37,14 +37,6 @@ const whitelist = [
   "https://proj-url-shortner.netlify.app",
 ];
 
-// const corsOptions = {
-//   credentials: true,
-//   origin: (origin, callback) => {
-//     if (whitelist.includes(origin)) return callback(null, true);
-//     callback(new Error("Not allowed by CORS"));
-//   },
-// };
-
 const corsOptions = {
   credentials: true,
   origin: function (origin, callback) {
