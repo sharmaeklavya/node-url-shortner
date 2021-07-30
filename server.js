@@ -35,6 +35,7 @@ app.use(
 const whitelist = [
   "http://localhost:3000",
   "https://proj-url-shortner.netlify.app",
+  "https://node-mini.herokuapp.com",
 ];
 
 const corsOptions = {
