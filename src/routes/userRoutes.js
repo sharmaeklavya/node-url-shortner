@@ -29,6 +29,6 @@ router.post("/shorten", shorten);
 
 router.get("/fetch", fetchAll);
 
-router.get("/:redirect", cors(), redirect);
+router.get("/:redirect", redirect);
 
 module.exports = router;
