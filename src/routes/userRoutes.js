@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const cors = require("cors");
 
 const {
   register,
@@ -30,6 +29,6 @@ router.post("/shorten", shorten);
 
 router.get("/fetch", fetchAll);
 
-router.get("/:redirect", cors(), redirect);
+router.get("/:redirect", redirect);
 
 module.exports = router;
